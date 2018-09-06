@@ -83,7 +83,7 @@ sudo pip install genpac
 
 > 系统设置 -> 网络 -> 网络代理
 
-![image](https://raw.githubusercontent.com/wangyongbin/my/master/vpn/images/vu1.png)
+![image](https://raw.githubusercontent.com/wangyongbin/my/master/vpn/images/vu2.png)
 
 
 ### 参考：
