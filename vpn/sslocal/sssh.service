@@ -1,0 +1,11 @@
+[Unit]
+Description=shadowsocks service start
+Alter=network.target
+
+[Service]
+ExecStart=/home/sa/work/vpn/sssh.sh
+Type=simple
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

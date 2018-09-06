@@ -1,0 +1,8 @@
+{
+  "server":"4**.**5.***.216",
+  "server_port":16899,
+  "local_port":1080,
+  "password":"***",
+  "timeout":600,
+  "method":"aes-128-ctr"
+}

@@ -14,8 +14,8 @@ sudo apt-get install -y python-setuptools m2crypto
 接着安装shadowsocks
 
 ```
+
 pip install shadowsocks
-sudo apt-get install -y shadowsocks
 
 ```
 
@@ -39,7 +39,7 @@ sudo apt-get install -y shadowsocks
 
 为了方便可以直接用sslcoal -d start -c 配置文件路径这样的方式只需配置一次，简单好用。
 
-我们可以在/home/sa/ 下新建个文件shadowsocks.json  (sa 是我在我电脑上的用户名，这里路径你自己看你的)。
+我们可以在/home/sa/work/vpn 下新建个文件shadowsocks.json 。
 内容如下：
 
 ```aidl
@@ -62,7 +62,7 @@ sudo apt-get install -y shadowsocks
 * timeout  超时设置和服务端一样
 * method  加密方法和服务端一样
 
-确定上面的配置文件没有问题，然后我们就可以在终端输入 sudo sslocal -d start -c /home/sa/shadowsocks.json 回车运行即可
+确定上面的配置文件没有问题，然后我们就可以在终端输入 sudo sslocal -d start -c /home/sa/work/vpn/shadowsocks.json 回车运行即可
 
 
 ### 使用系统代理，生成pac文件然后配置ubuntu16.04的网络代理
@@ -85,6 +85,45 @@ sudo pip install genpac
 
 ![image](https://raw.githubusercontent.com/wangyongbin/my/master/vpn/images/vu2.png)
 
+### 设置sslocal开机启动
+
+新建脚本 sssh.sh 
+
+```aidl
+
+#!/bin/bash
+
+#后台启动sslocal服务，并将全部日志输出道空设备，不保留日志
+nohup sslocal -c /home/sa/work/vpn/shadowsocks.json >/dev/null 2>&1 &
+
+```
+
+使用root权限在目录/lib/systemd/system/创建文件sssh.service，内容如下
+
+```aidl
+
+[Unit]
+Description=shadowsocks service start
+Alter=network.target
+
+[Service]
+ExecStart=/home/sa/work/vpn/sssh.sh
+Type=simple
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+然后执行以下命令：
+
+```aidl
+
+sudo systemctl start sssh.service    #启动服务
+sudo systemctl enable sssh.service   #设置开启启动
+
+```
 
 ### 参考：
 * [Chrome扩展程序crx的下载和安装方法](https://jingyan.baidu.com/article/e4511cf35c2df92b845eafb3.html)
@@ -92,3 +131,4 @@ sudo pip install genpac
 * [Ubuntu 16.04使用Shadowsocks代理上网(Chrome浏览器)](https://blog.csdn.net/u79501/article/details/69666754?readlog)
 * [ubuntu16.04下shadowsocks配置(火狐浏览器)](https://blog.csdn.net/weixin_40320794/article/details/79287287)
 * [Ubuntu16.04下配置shadowsocks（亲测可用）](https://blog.csdn.net/mynameis121/article/details/70191057)
+
